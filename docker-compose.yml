@@ -1,0 +1,26 @@
+version: '3.8'
+
+
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql_springboot_jpa
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: hb-01-one-to-one-uni
+      MYSQL_USER: springcourse
+      MYSQL_PASSWORD: springcourse
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+      - ./init:/docker-entrypoint-initdb.d
+    networks:
+      - springboot-mysql-network
+
+volumes:
+  mysql_data:
+networks:
+  springboot-mysql-network:
+
