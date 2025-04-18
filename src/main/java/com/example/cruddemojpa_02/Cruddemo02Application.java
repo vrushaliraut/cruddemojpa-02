@@ -4,6 +4,7 @@ import com.example.cruddemojpa_02.dao.AppDAO;
 import com.example.cruddemojpa_02.entity.Course;
 import com.example.cruddemojpa_02.entity.Instructor;
 import com.example.cruddemojpa_02.entity.InstructorDetail;
+import com.example.cruddemojpa_02.entity.Review;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -45,8 +46,36 @@ public class Cruddemo02Application {
 
             //deleteInstructor(appDAO);
 
-            deleteCourse(appDAO);
+            // deleteCourse(appDAO);
+            // createCourseAndReviews(appDAO);
+            retrieveCourseAndReviews(appDAO);
         };
+    }
+
+    private void retrieveCourseAndReviews(AppDAO appDAO) {
+        int theId = 5;
+        Course tempCourse = appDAO.findCourseAndReviewsById(theId);
+        System.out.println("tempCourse: " + tempCourse);
+        System.out.println("Reviews: " + tempCourse.getReviews());
+    }
+
+    private void createCourseAndReviews(AppDAO appDAO) {
+        // create a course
+        // add some reviews
+        // save the course
+        Course tempCourse = new Course("Pacman - How To Score One Million Points");
+        tempCourse.addReview(new Review("Great course ... loved it!"));
+        tempCourse.addReview(new Review("Cool course, job well done!"));
+        tempCourse.addReview(new Review("What a dumb course, you are an idiot!"));
+
+        // save the course... and leverage the cascade all => reviews are saved
+        System.out.println("Saving the course");
+        System.out.println(tempCourse);
+        System.out.println(tempCourse.getReviews());
+
+        appDAO.save(tempCourse);
+
+        System.out.println("Done!");
     }
 
     private void deleteCourse(AppDAO appDAO) {
